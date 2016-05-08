@@ -42,7 +42,7 @@ datasets respectively. The parameters of segmentation are specified in the heade
 
 - To test an approach based on Random Forest + hand-crafted features run "wisdm_random_forest.py".
 - To test an approach based on Random Forest + PCA features set parameter 'use_pca_features' to true in "run_WISDM.m" 
-and after the data is generated run "wisdm_run_forest.py".
+and after the data is generated run "wisdm_random_forest.py".
 - To test an approach based on the classification of raw accelerometer time series using K-nearest neighbor algorithm, 
 run "wisdm_knn.py".
 
