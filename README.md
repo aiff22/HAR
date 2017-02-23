@@ -59,11 +59,11 @@ The parameters of the CNN are specified in the header of these scripts.
 #### 4. System performance
 
 
-When using UCI dataset and segments (recognition intervals) of size 128, CNN should achieve the accuracy score of about 95%.
-For segments of size 50 this value should be about 92%.
+When using UCI dataset and segments (recognition intervals) of size 128, CNN should achieve the accuracy score of about 97%.
+For segments of size 50 this value should be about 94%.
 
-When using WISDM dataset and segments (recognition intervals) of size 200, CNN should achieve the accuracy score of about 90%.
-For segments of size 50 this value should be about 88%.
+When using WISDM dataset and segments (recognition intervals) of size 200, CNN should achieve the accuracy score of about 93%.
+For segments of size 50 this value should be about 90%.
 
 
  [WISDM]: <http://www.cis.fordham.edu/wisdm/dataset.php>

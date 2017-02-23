@@ -63,7 +63,7 @@ for i = 1:size(idx_shuffled, 1) - 1
          z_add = arr_z(k:(k + segment_length - 1))';
 
          basic_features = [basic_features; Extract_basic_features(x_add, y_add, z_add)];
-         k = k + segment_length;
+         k = k + segment_length/2;
         
     end
     

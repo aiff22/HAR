@@ -4,10 +4,10 @@
 
 %% set parameters
 
-segment_length = 128;
+segment_size = 128;
 test_user_ids = [2, 4, 9, 10, 12, 13, 18, 20, 24];
 
-strcat('segment lenght: ', num2str(segment_length))
+strcat('segment lenght: ', num2str(segment_size))
 
 %% open file and read labels
 
@@ -38,6 +38,7 @@ x = []; gyro_x = [];
 y = []; gyro_y = [];
 z = []; gyro_z = [];
 answers_raw = [];
+features = [];
 
 % testing data
 
@@ -45,6 +46,7 @@ test_x = []; test_gyro_x = [];
 test_y = []; test_gyro_y = [];
 test_z = []; test_gyro_z = [];
 test_answers_raw = [];
+test_features = [];
 
 for i = 1:size(idx_files, 1)
     
@@ -84,16 +86,23 @@ for i = 1:size(idx_files, 1)
             if exp_data(j, 1) < 7
                 k = exp_data(j, 2);
                 while k + segment_size <= exp_data(j, 3)
-                   x = [x; data_x(k : k + segment_size - 1)'];
-                   y = [y; data_y(k : k + segment_size - 1)'];
-                   z = [z; data_z(k : k + segment_size - 1)'];
+
+                   x_add = data_x(k : k + segment_size - 1)';
+                   y_add = data_y(k : k + segment_size - 1)';
+                   z_add = data_z(k : k + segment_size - 1)';
+
+                   x = [x; x_add];
+                   y = [y; y_add];
+                   z = [z; z_add];
+
+                   features = [features; Extract_basic_features(x_add, y_add, z_add)];
 
                    gyro_x = [gyro_x; gdata_x(k : k + segment_size - 1)'];
                    gyro_y = [gyro_y; gdata_y(k : k + segment_size - 1)'];
                    gyro_z = [gyro_z; gdata_z(k : k + segment_size - 1)'];
 
                    answers_raw = [answers_raw; exp_data(j, 1)];
-                   k = k + segment_size;
+                   k = k + segment_size/2;
                    
                 end
             end
@@ -106,16 +115,23 @@ for i = 1:size(idx_files, 1)
             if exp_data(j, 1) < 7
                 k = exp_data(j, 2);
                 while k + segment_size <= exp_data(j, 3)
-                   test_x = [test_x; data_x(k : k + segment_size - 1)'];
-                   test_y = [test_y; data_y(k : k + segment_size - 1)'];
-                   test_z = [test_z; data_z(k : k + segment_size - 1)'];
+
+                   x_add = data_x(k : k + segment_size - 1)';
+                   y_add = data_y(k : k + segment_size - 1)';
+                   z_add = data_z(k : k + segment_size - 1)';
+
+                   test_x = [test_x; x_add];
+                   test_y = [test_y; y_add];
+                   test_z = [test_z; z_add];
+
+                   test_features = [test_features; Extract_basic_features(x_add, y_add, z_add)];
 
                    test_gyro_x = [test_gyro_x; gdata_x(k : k + segment_size - 1)'];
                    test_gyro_y = [test_gyro_y; gdata_y(k : k + segment_size - 1)'];
                    test_gyro_z = [test_gyro_z; gdata_z(k : k + segment_size - 1)'];
 
                    test_answers_raw = [test_answers_raw; exp_data(j, 1)];
-                   k = k + segment_size;
+                   k = k + segment_size/2;
                 end
             end
             
@@ -148,22 +164,16 @@ end
 
 'writing data to file'
 
-all_acc_data = [x, y, z];
-all_gyro_data = [gyro_x, gyro_y, gyro_z];
 all_data = [x, y, z, gyro_x, gyro_y, gyro_z];
 
-% dlmwrite('uci_data/data_acc.csv', all_acc_data, 'delimiter', ',', 'precision', 4)
-% dlmwrite('uci_data/data_gyro.csv', all_gyro_data, 'delimiter', ',', 'precision', 4)
 dlmwrite('uci_data/all_data.csv', all_data, 'delimiter', ',', 'precision', 4)
 dlmwrite('uci_data/answers.csv', answer_vector, 'delimiter', ',')
+dlmwrite('uci_data/features.csv', features, 'delimiter', ',')
 
-all_test_acc_data = [test_x, test_y, test_z];
-all_test_gyro_data = [test_gyro_x, test_gyro_y, test_gyro_z];
 all_test_data = [test_x, test_y, test_z, test_gyro_x, test_gyro_y, test_gyro_z];
 
-% dlmwrite('uci_data/data_acc_test.csv', all_test_acc_data, 'delimiter', ',', 'precision', 4)
-% dlmwrite('uci_data/data_gyro_test.csv', all_test_gyro_data, 'delimiter', ',', 'precision', 4)
 dlmwrite('uci_data/all_data_test.csv', all_test_data, 'delimiter', ',', 'precision', 4)
 dlmwrite('uci_data/answers_test.csv', test_answ_vector, 'delimiter', ',')
+dlmwrite('uci_data/test_features.csv', test_features, 'delimiter', ',')
 
 'training and test data was generated'
