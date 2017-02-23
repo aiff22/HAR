@@ -4,11 +4,9 @@
 
 #### 1. Overview
 
-This code implements a convolutional neural network architecture for real-time user-independent human activity recognition.
+This code implements a Convolutional Neural Network-based approach for real-time human activity recognition.
 
-Among its main features are very short recognition intervals of size up to 1 second, no manual feature engineering or data 
-preprocessing, and domain-independent architecture that with a minimal amount of modifications can be successfully applied 
-to different types of datasets.
+The proposed architecture combines a shallow CNN for unsupervised local feature extraction together with statistical features that encode global characteristics of the time series. Among its main benefits are short recognition intervals of size up to 1 second, almost no manual feature engineering or data preprocessing, and a domain-independent architecture that with a minimal amount of modifications can be applied to different types of datasets.
 
 ---
 
